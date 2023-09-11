@@ -11,6 +11,11 @@ execute "Download alp" do
   not_if "test -e /tmp/alp_#{ARCH}.zip"
 end
 
+# unzipのインストール
+package 'unzip' do
+  action :install
+end
+
 # ダウンロードしたZIPファイルを解凍
 execute "Unzip alp binary" do
   command "unzip /tmp/alp_#{ARCH}.zip -d /tmp"
