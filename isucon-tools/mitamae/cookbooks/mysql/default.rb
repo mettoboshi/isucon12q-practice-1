@@ -16,7 +16,7 @@ source_absolute_path = File.expand_path(source_relative_path, current_dir)
 # 設定ファイルのバックアップ
 execute "backup #{filename}" do
   command "mv #{target_path} #{target_path}.#{current_time}"
-  only_if { File.exist?(target_path) }
+  only_if { File.exist?(target_path) && File.exist?(source_absolute_path) }
   not_if "diff -q #{target_path} #{source_absolute_path}"
 end
 
