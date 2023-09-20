@@ -3,20 +3,28 @@ current_time = Time.now.to_s.gsub(/[- :+]/, '')
 
 # カレントディレクトリを取得
 current_dir = File.dirname(__FILE__)
-source_path = File.expand_path("config/mysql.conf.d/mysqld.cnf", current_dir)
 
-# mysqld.cnfのバックアップ
-execute "backup mysqld.conf" do
-  command "mv /etc/mysql/mysql.conf.d/mysqld.cnf /etc/mysql/mysql.conf.d/mysqld.cnf.#{current_time}"
-  not_if "diff -q /etc/mysql/mysql.conf.d/mysqld.cnf #{source_path}"
+# 設定ファイルの情報
+filename = "mysqld.cnf"
+target_directory = "/etc/mysql/mysql.conf.d/"
+source_directory = "config/mysql.conf.d/"
+
+target_path = "#{target_directory}/#{filename}"
+source_relative_path = "#{source_directory}/#{filename}"
+source_absolute_path = File.expand_path(source_relative_path, current_dir)
+
+# 設定ファイルのバックアップ
+execute "backup #{filename}" do
+  command "mv #{target_path} #{target_path}.#{current_time}"
+  not_if "diff -q #{target_path} #{source_absolute_path}"
 end
 
-remote_file "/etc/mysql/mysql.conf.d/mysqld.cnf" do
+remote_file "#{target_path}" do
   owner  "root"
   group  "root"
-  source source_path
+  source source_absolute_path
   mode   "644"
-  only_if { File.exist?(source_path) }
+  only_if { File.exist?(source_absolute_path) }
   notifies :restart, "service[mysql]"
 end
 
