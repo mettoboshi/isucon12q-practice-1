@@ -20,12 +20,14 @@ execute "backup #{filename}" do
   not_if "diff -q #{target_path} #{source_absolute_path}"
 end
 
-# nginx.confをコピー
-remote_file "#{target_path}" do
-  owner  "root"
-  group  "root"
-  source source_absolute_path
-  mode   "644"
+# nginx.confをコピー（ファイルが存在する場合のみ）
+if File.exist?(source_absolute_path)
+  remote_file "#{target_path}" do
+    owner  "root"
+    group  "root"
+    source source_absolute_path
+    mode   "644"
+  end
 end
 
 # isucon-php.confの設定
@@ -44,12 +46,14 @@ execute "backup #{filename}" do
   not_if "diff -q #{target_path} #{source_absolute_path}"
 end
 
-# isucon-php.confをコピー
-remote_file "#{target_path}" do
-  owner  "root"
-  group  "root"
-  source source_absolute_path
-  mode   "644"
+# isucon-php.confをコピー（ファイルが存在する場合のみ）
+if File.exist?(source_absolute_path)
+  remote_file "#{target_path}" do
+    owner  "root"
+    group  "root"
+    source source_absolute_path
+    mode   "644"
+  end
 end
 
 # nginxの再起動
