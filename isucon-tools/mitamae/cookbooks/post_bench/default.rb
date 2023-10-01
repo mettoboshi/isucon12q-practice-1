@@ -20,7 +20,7 @@ end
 
 # nginxのaccess.logを解析(sum)
 execute "Analyze nginx access log with alp" do
-   command "#{BIN_DIR}/alp json --sort sum -r -m \"\"' -o count,method,uri,min,avg,max,sum --file #{NGINX_LOG} > #{NGINX_LOG_BASE_DIR}/nginx-alp-sum.log.#{TIMESTAMP}"
+   command "#{BIN_DIR}/alp json --sort sum -r -m \"\" -o count,method,uri,min,avg,max,sum --file #{NGINX_LOG} > #{NGINX_LOG_BASE_DIR}/nginx-alp-sum.log.#{TIMESTAMP}"
 #   command "#{BIN_DIR}/alp json --sort sum -r -m '/posts/[0-9]+,/@[a-z]+,/image/[0-9]+\.[a-z]+' -o count,method,uri,min,avg,max,sum --file #{NGINX_LOG} > #{NGINX_LOG_BASE_DIR}/nginx-alp-sum.log.#{TIMESTAMP}"
   only_if "test -f #{NGINX_LOG}"
 end
