@@ -31,7 +31,7 @@ if File.exist?(source_absolute_path)
 end
 
 # isucon-php.confの設定
-filename = "isucon-php.conf"
+filename = "isuports-php.conf"
 target_directory = "/etc/nginx/sites-available"
 source_directory = "config/sites-available"
 
