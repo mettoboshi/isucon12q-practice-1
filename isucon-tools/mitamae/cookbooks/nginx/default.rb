@@ -4,31 +4,51 @@ current_time = Time.now.to_s.gsub(/[- :+]/, '')
 # カレントディレクトリを取得
 current_dir = File.dirname(__FILE__)
 
+# nginx.confの設定
+filename = "nginx.conf"
+target_directory = "/etc/nginx"
+source_directory = "config"
+
+target_path = "#{target_directory}/#{filename}"
+source_relative_path = "#{source_directory}/#{filename}"
+source_absolute_path = File.expand_path(source_relative_path, current_dir)
+
 # nginx.confのバックアップ
-execute "backup nginx.conf" do
-  command "mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.#{current_time}"
-  not_if "diff -q /etc/nginx/nginx.conf #{current_dir}/config/nginx.conf"
+execute "backup #{filename}" do
+  command "mv #{target_path} #{target_path}.#{current_time}"
+  only_if { File.exist?(target_path) && File.exist?(source_absolute_path) }
+  not_if "diff -q #{target_path} #{source_absolute_path}"
 end
 
 # nginx.confをコピー
-remote_file "/etc/nginx/nginx.conf" do
+remote_file "#{target_path}" do
   owner  "root"
   group  "root"
-  source "config/nginx.conf"
+  source source_absolute_path
   mode   "644"
 end
 
+# isucon-php.confの設定
+filename = "isucon-php.conf"
+target_directory = "/etc/nginx/sites-available"
+source_directory = "config/sites-available"
+
+target_path = "#{target_directory}/#{filename}"
+source_relative_path = "#{source_directory}/#{filename}"
+source_absolute_path = File.expand_path(source_relative_path, current_dir)
+
 # isucon-php.confのバックアップ
-execute "backup isucon-php.conf" do
-  command "mv /etc/nginx/sites-available/isucon-php.conf /etc/nginx/sites-available/isucon-php.conf.#{current_time}"
-  not_if "diff -q /etc/nginx/sites-available/isucon-php.conf #{current_dir}/config/sites-available/isucon-php.conf"
+execute "backup #{filename}" do
+  command "mv #{target_path} #{target_path}.#{current_time}"
+  only_if { File.exist?(target_path) && File.exist?(source_absolute_path) }
+  not_if "diff -q #{target_path} #{source_absolute_path}"
 end
 
 # isucon-php.confをコピー
-remote_file "/etc/nginx/sites-available/isucon-php.conf" do
+remote_file "#{target_path}" do
   owner  "root"
   group  "root"
-  source "config/sites-available/isucon-php.conf"
+  source source_absolute_path
   mode   "644"
 end
 
