@@ -11,3 +11,6 @@ pre-bench:
 
 post-bench:
 	sudo ./bin/mitamae local --log-level=debug mitamae/cookbooks/post_bench/default.rb
+
+backup:
+	sudo ./bin/mitamae local --log-level=debug mitamae/cookbooks/backup/default.rb
