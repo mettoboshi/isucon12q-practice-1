@@ -1,6 +1,6 @@
-MYSQL_USER = 'isuconp'
-MYSQL_PASSWORD = 'isuconp'
-MYSQL_DATABASE = 'isuconp'
+MYSQL_USER = 'root'
+MYSQL_PASSWORD = 'root'
+MYSQL_DATABASE = 'isuports'
 DUMP_DIR = "/home/isucon/work"
 DUMP_FILE = "#{DUMP_DIR}/dump.sql"
 
