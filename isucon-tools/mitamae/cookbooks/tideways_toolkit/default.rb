@@ -11,7 +11,6 @@ end
 # tideways/toolkit のインストール
 execute "Install tideways toolkit using go" do
   user user_name
-  environment 'HOME' => user_home
   command "go install github.com/tideways/toolkit@latest"
   not_if "test -e #{gopath_bin}/toolkit"
 end
@@ -19,7 +18,6 @@ end
 # ユーザーのPATHにtideways/toolkitのパスを追加
 execute "Add GOPATH/bin to #{user_name}'s PATH" do
   user user_name
-  environment 'HOME' => user_home
   command %Q(echo 'export PATH="$PATH:#{gopath_bin}"' >> #{user_home}/.bashrc)
   not_if %Q(grep -q "#{gopath_bin}" #{user_home}/.bashrc)
 end
