@@ -22,7 +22,8 @@ RUN git clone https://github.com/tideways/php-profiler-extension.git && \
   make && \
   make install && \
   echo 'extension=tideways_xhprof.so' > /usr/local/etc/php/conf.d/tideways_xhprof.ini && \
-  echo 'tideways.auto_prepend_library=0' >> /usr/local/etc/php/conf.d/tideways_xhprof.ini
+  echo 'tideways.auto_prepend_library=0' >> /usr/local/etc/php/conf.d/tideways_xhprof.ini && \
+  echo 'tideways.output_dir=/home/isucon/tmp' >> /usr/local/etc/php/conf.d/tideways_xhprof.ini
 
 RUN useradd --uid=1001 --create-home isucon
 USER isucon
