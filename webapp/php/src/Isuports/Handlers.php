@@ -847,6 +847,8 @@ class Handlers
      */
     public function playerHandler(Request $request, Response $response, array $params): Response
     {
+        tideways_xhprof_enable();
+
         $v = $this->parseViewer($request);
         if ($v->role !== self::ROLE_PLAYER) {
             throw new HttpForbiddenException($request, 'role player required');
@@ -914,6 +916,9 @@ class Handlers
 
         $tenantDB->close();
         fclose($fl);
+
+        $filename = sprintf("./xhprof_%s.xhprof", microtime(true));
+        file_put_contents($filename, json_encode(tideways_xhprof_disable()));
 
         return $this->jsonResponse($response, $res);
     }
