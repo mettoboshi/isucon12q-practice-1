@@ -26,6 +26,7 @@ class Handlers
 {
     private const TENANT_DB_SCHEMA_FILE_PATH = __DIR__ . '/../../../sql/tenant/10_schema.sql';
     private const INITIALIZE_SCRIPT = __DIR__ . '/../../../sql/init.sh';
+    private const TMP_DIR = __DIR__ . '/../../../../tmp/aaa.txt';
     private const COOKIE_NAME = 'isuports_session';
 
     private const ROLE_ADMIN = 'admin';
@@ -847,6 +848,7 @@ class Handlers
      */
     public function playerHandler(Request $request, Response $response, array $params): Response
     {
+	$this->logger->error('xxxx Player Handler..');
         tideways_xhprof_enable();
 
         $v = $this->parseViewer($request);
@@ -917,7 +919,8 @@ class Handlers
         $tenantDB->close();
         fclose($fl);
 
-        $filename = sprintf("./xhprof_%s.xhprof", microtime(true));
+	$timestamp = str_replace('.', '', microtime(true));
+        $filename = sprintf("/../../../..//tmp/xhprof_%s.xhprof", $timestamp);
         file_put_contents($filename, json_encode(tideways_xhprof_disable()));
 
         return $this->jsonResponse($response, $res);
