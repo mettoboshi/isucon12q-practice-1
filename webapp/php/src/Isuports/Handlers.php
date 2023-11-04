@@ -848,7 +848,7 @@ class Handlers
      */
     public function playerHandler(Request $request, Response $response, array $params): Response
     {
-	$this->logger->error('xxxx Player Handler..');
+	    $this->logger->error('xxxx Player Handler..');
         tideways_xhprof_enable();
 
         $v = $this->parseViewer($request);
@@ -919,7 +919,7 @@ class Handlers
         $tenantDB->close();
         fclose($fl);
 
-	$timestamp = str_replace('.', '', microtime(true));
+	    $timestamp = str_replace('.', '', (string) microtime(true));
         $filename = sprintf("/../../../..//tmp/xhprof_%s.xhprof", $timestamp);
         file_put_contents($filename, json_encode(tideways_xhprof_disable()));
 
