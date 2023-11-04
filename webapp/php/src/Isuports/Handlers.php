@@ -920,7 +920,7 @@ class Handlers
         fclose($fl);
 
 	    $timestamp = str_replace('.', '', (string) microtime(true));
-        $filename = sprintf("../../../..//tmp/xhprof_%s.xhprof", $timestamp);
+        $filename = sprintf("../../../../tmp/xhprof_%s.xhprof", $timestamp);
         file_put_contents($filename, json_encode(tideways_xhprof_disable()));
 
         return $this->jsonResponse($response, $res);
